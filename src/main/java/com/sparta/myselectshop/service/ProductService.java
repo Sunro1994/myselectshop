@@ -51,11 +51,13 @@ public class ProductService {
 
     }
 
+    @Transactional(readOnly = true)
+    //지연로딩으로 설정해뒀다면 Transactional 적용필요, 이후 자주 함께 조회된다면 Eager로 조회하고 어노테이션 제거 가능
+    //지연로딩만 수행하기때문에 readOnly 적용
     public Page<ProductResponseDto> getProducts(User user, int page, int size, String sortBy, boolean isAsc) {
 
         Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortBy);
-
         Pageable pageable = PageRequest.of(page,size,sort);
 
         UserRoleEnum userRoleEnum = user.getRole();

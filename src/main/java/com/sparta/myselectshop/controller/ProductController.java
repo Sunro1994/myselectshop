@@ -50,7 +50,7 @@ public class ProductController {
 
     @PostMapping("/products/{productId}/folder")
     public void addFolder(
-            @PathVariable("productid") Long productId,
+            @PathVariable("productId") Long productId,
             @RequestParam Long folderId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ){

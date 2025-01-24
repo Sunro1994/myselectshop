@@ -97,6 +97,7 @@ public class ProductService {
         return responseDtoList;
     }
 
+    @Transactional
     public void addFolder(Long productId, Long folderId, User user
     ) {
         Product product = productRepository.findById(productId).orElseThrow(

@@ -28,7 +28,7 @@ public class FolderService {
             if (!isExistFolderName(existFolderList, folderName)) {
                 folderList.add(new Folder(folderName, user));
             }else{
-                throw new IllegalArgumentException("폴더명 중복");
+                throw new IllegalArgumentException("중복된 폴더명을 제거해주세! 폴더명 : " + folderName);
             }
         }
         folderRepository.saveAll(folderList);

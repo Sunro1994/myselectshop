@@ -418,7 +418,7 @@ function setMyprice() {
             window.location.reload();
         },
         error(error, status, request) {
-            logout();
+            alert(error);
         }
     })
 }

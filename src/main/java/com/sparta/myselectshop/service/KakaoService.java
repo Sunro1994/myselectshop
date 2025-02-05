@@ -37,7 +37,7 @@ public class KakaoService {
     @Value("{${kakao.clientId}")
     private String kakaoClientId;
 
-    @Value("{${kakao.callbackUrl}")
+    @Value("{$kakao.callbackUrl}")
     private String callbackUrl;
 
 

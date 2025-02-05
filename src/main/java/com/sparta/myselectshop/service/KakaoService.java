@@ -34,10 +34,10 @@ public class KakaoService {
     private final RestTemplate restTemplate;
     private final JwtUtil jwtUtil;
 
-    @Value("{${kakao.clientId}")
+    @Value("${kakao.clientId}")
     private String kakaoClientId;
 
-    @Value("{$kakao.callbackUrl}")
+    @Value("${kakao.callbackUrl}")
     private String callbackUrl;
 
 

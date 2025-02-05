@@ -61,7 +61,7 @@ jobs:
       - name: Docker build & push to dev
         if: contains(github.ref, 'master')
         run: |
-          docker build Dockerfile -t ${{ secrets.DOCKER_REPO}}/myselectshop:test .
+          docker build --cache-from=type=local,src=/tmp/.build-cache -f Dockerfile -t ${{ secrets.DOCKER_REPO}}/myselectshop:test .
           docker push ${{ secrets.DOCKER_REPO}}/myselectshop:test
 
       #  배포

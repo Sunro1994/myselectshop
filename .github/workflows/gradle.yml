@@ -34,7 +34,7 @@ jobs:
 
       # 환경 설정(application-dev.yml 파일 생성)
       - name: Make application-dev.yml
-        if: contains(github.ref, 'develop')
+        if: contains(github.ref, 'master')
         run: |
           cd ./src/main/resources
           touch ./application-dev.yml

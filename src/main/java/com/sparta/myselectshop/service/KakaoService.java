@@ -43,7 +43,6 @@ public class KakaoService {
 
 
     public String kakaoLogin(String code) throws JsonProcessingException {
-        log.info("callbackUrl = " + callbackUrl);
         // 1. "인가 코드"로 "액세스 토큰" 요청
         String accessToken = getToken(code);
 

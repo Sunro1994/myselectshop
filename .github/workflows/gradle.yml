@@ -59,16 +59,16 @@ jobs:
 
       # Docker 빌드 & 푸시
       - name: Docker build & push to dev
-        if: contains(github.ref, 'develop')
+        if: contains(github.ref, 'master')
         run: |
           docker build --cache-from=type=local,src=/tmp/.build-cache -f Dockerfile -t ${{ secrets.DOCKER_REPO}}/myselectshop:test .
           docker push ${{ secrets.DOCKER_REPO}}/myselectshop:test
 
-      # 개발 환경에 배포
+      #  배포
       - name: Deploy to dev
         uses: appleboy/ssh-action@master
         id: deploy-dev
-        if: contains(github.ref, 'develop')
+        if: contains(github.ref, 'master')
         with:
           host: ${{ secrets.HOST_DEV }}
           username: ${{ secrets.USERNAME }}

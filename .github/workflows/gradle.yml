@@ -2,7 +2,7 @@ name: CI/CD github Actions & Docker
 
 on:
   push:
-    branches: ["main"]
+    branches: ["master"]
 
 permissions:
   contents: read

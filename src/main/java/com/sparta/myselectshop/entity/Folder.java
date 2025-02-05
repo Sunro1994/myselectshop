@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -22,6 +25,10 @@ public class Folder {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+
+    @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL)
+    private List<ProductFolder> productFolders = new ArrayList<>();
 
     public Folder(String name, User user) {
         this.name = name;

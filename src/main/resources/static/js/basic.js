@@ -171,23 +171,15 @@ function addProduct(itemDto) {
 }
 
 function showProduct(folderId = null) {
-    /**
-     * 관심상품 목록: #product-container
-     * 검색결과 목록: #search-result-box
-     * 관심상품 HTML 만드는 함수: addProductItem
-     */
-
-    let dataSource = null;
+    let dataSource;
 
     var sorting = $("#sorting option:selected").val();
     var isAsc = $(':radio[name="isAsc"]:checked').val();
 
-    if (folderId) {
+    if (folderId !== null) {
         dataSource = `/api/folders/${folderId}/products?sortBy=${sorting}&isAsc=${isAsc}`;
-    } else if(folderTargetId === undefined) {
-        dataSource = `/api/products?sortBy=${sorting}&isAsc=${isAsc}&folderId=${folderId}`;
     } else {
-        dataSource = `/api/folders/${folderTargetId}/products?sortBy=${sorting}&isAsc=${isAsc}`;
+        dataSource = `/api/products?sortBy=${sorting}&isAsc=${isAsc}`;
     }
 
     $('#product-container').empty();
@@ -199,9 +191,7 @@ function showProduct(folderId = null) {
             pageNumber: 'page',
             pageSize: 'size'
         },
-        totalNumberLocator: (response) => {
-            return response.totalElements;
-        },
+        totalNumberLocator: (response) => response.totalElements,
         pageSize: 10,
         showPrevious: true,
         showNext: true,
@@ -209,25 +199,25 @@ function showProduct(folderId = null) {
             beforeSend: function () {
                 $('#product-container').html('상품 불러오는 중...');
             },
-            error(error, status, request) {
+            error(error) {
                 if (error.status === 403) {
-                    $('html').html(error.responseText);
+                    alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+                    logout();
                     return;
                 }
-                logout();
+                alert("데이터를 불러오는 중 오류가 발생했습니다.");
             }
         },
-        callback: function (response, pagination) {
+        callback: function (response) {
             $('#product-container').empty();
-            for (let i = 0; i < response.length; i++) {
-                let product = response[i];
+            let products = response.content || response; // content 키가 있는 경우 가져오기
+            products.forEach(product => {
                 let tempHtml = addProductItem(product);
                 $('#product-container').append(tempHtml);
-            }
+            });
         }
     });
 }
-
 // Folder 관련 기능
 function openFolder(folderId) {
     folderTargetId = folderId;

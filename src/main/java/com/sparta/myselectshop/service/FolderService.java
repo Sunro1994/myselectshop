@@ -1,7 +1,9 @@
 package com.sparta.myselectshop.service;
 
 import com.sparta.myselectshop.dto.FolderResponseDto;
+import com.sparta.myselectshop.dto.ProductResponseDto;
 import com.sparta.myselectshop.entity.Folder;
+import com.sparta.myselectshop.entity.ProductFolder;
 import com.sparta.myselectshop.entity.User;
 import com.sparta.myselectshop.repository.FolderRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +29,7 @@ public class FolderService {
         for (String folderName : folderNames) {
             if (!isExistFolderName(existFolderList, folderName)) {
                 folderList.add(new Folder(folderName, user));
-            }else{
+            } else {
                 throw new IllegalArgumentException("중복된 폴더명을 제거해주세! 폴더명 : " + folderName);
             }
         }
@@ -54,4 +56,19 @@ public class FolderService {
         return false;
     }
 
+    @Transactional(readOnly = true)
+    public List<ProductResponseDto> getProductsInFolder(Long folderId, User user) {
+        // 사용자 소유의 폴더인지 확인
+        Folder folder = folderRepository.findByIdAndUser(folderId, user)
+                .orElseThrow(() -> new IllegalArgumentException("해당 폴더를 찾을 수 없거나 접근 권한이 없습니다."));
+
+        // ProductFolder 엔티티를 통해 폴더에 속한 상품 조회
+        List<ProductResponseDto> responseDtoList = new ArrayList<>();
+        for (ProductFolder productFolder : folder.getProductFolders()) {
+            responseDtoList.add(new ProductResponseDto(productFolder.getProduct()));
+        }
+
+        return responseDtoList;
+    }
 }
+

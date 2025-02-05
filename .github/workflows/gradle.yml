@@ -77,5 +77,5 @@ jobs:
           script: |
             sudo docker rm -f dotorit-server  # 특정 컨테이너만 삭제
             sudo docker pull ${{ secrets.DOCKER_REPO}}/myselectshop:test
-            sudo docker run -d -p 8080:8080 --name dotorit-server --env-file=/home/ubuntu/.env ${{ secrets.DOCKER_REPO}}/myselectshop:test
+            sudo docker run -d -p 8080:8080 --name myselectshop ${{ secrets.DOCKER_REPO}}/myselectshop:test
             sudo docker image prune -f  # 필요 없는 이미지 정리
